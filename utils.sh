@@ -77,7 +77,7 @@ cd "${SCRIPT_DIR}"
 
 git checkout automation
 git add .
-git commit -m "${COMMIT_MESSAGE}" -m "Co-authored-by: Christian Ditaputratama <ditatompel@gmail.com>"
-git push -u origin automation # you need to change this if using automation branch
+git commit -m "${COMMIT_MESSAGE}"
+git push -u origin automation
 
 # vim: set ts=2 sw=2 et:
