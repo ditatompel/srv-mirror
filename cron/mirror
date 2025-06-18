@@ -23,3 +23,4 @@
 # m h  dom mon dow   command
 
 37 */2 * * * /bin/bash /opt/mirror/.local/scripts/archlinux-syncrepo.sh >/dev/null 2>&1
+0 10 * * * /bin/bash /opt/mirror/.local/src/dt/srv-mirror/utils.sh >/dev/null 2>&1
