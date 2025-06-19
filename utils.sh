@@ -38,6 +38,22 @@ sync() {
   rsync -avh \
     /opt/mirror/.local/scripts/ \
     "${SCRIPT_DIR}/opt/mirror/.local/scripts" --delete-after
+
+  # Nginx
+  mkdir -p "${SCRIPT_DIR}/etc/nginx/conf.d"
+  cp /etc/nginx/cloudflare-ips.sh "${SCRIPT_DIR}/etc/nginx/cloudflare-ips.sh" --update
+  cp /etc/nginx/nginx.conf "${SCRIPT_DIR}/etc/nginx/nginx.conf" --update
+  sed -i -E '/access_log/ s/server=[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+/server=xxx.xxx.xxx.xxx:xxx/' "${SCRIPT_DIR}/etc/nginx/nginx.conf"
+  cp /etc/nginx/conf.d/mirror.ditatompel.com.conf \
+    "${SCRIPT_DIR}/etc/nginx/conf.d/mirror.ditatompel.com.conf"
+  sed -i -E '/access_log/ s/server=[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+/server=xxx.xxx.xxx.xxx:xxx/' "${SCRIPT_DIR}/etc/nginx/conf.d/mirror.ditatompel.com.conf"
+  sed -i 's/allow .*$/allow <REDACTED>/g' "${SCRIPT_DIR}/etc/nginx/conf.d/mirror.ditatompel.com.conf"
+  mkdir -p "${SCRIPT_DIR}/etc/nginx/snippets"
+  rsync -avh /etc/nginx/snippets/ "${SCRIPT_DIR}/etc/nginx/snippets/" --delete-after
+  sed -i '/^# Generated at/d' "${SCRIPT_DIR}/etc/nginx/snippets/cloudflare_geoip_proxy.conf"
+  sed -i '/^# Generated at/d' "${SCRIPT_DIR}/etc/nginx/snippets/cloudflare_real_ips.conf"
+  sed -i '/^# Generated at/d' "${SCRIPT_DIR}/etc/nginx/snippets/cloudflare_whitelist.conf"
+  /usr/sbin/nginx -V &> "${SCRIPT_DIR}/versions/nginx"
 }
 
 # `:` means "takes an argument", not "mandatory argument".
