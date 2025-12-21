@@ -27,7 +27,7 @@
 # lot of traffic.
 
 # Directory where the repo is stored locally. Example: /srv/repo
-target="/mnt/hdd2/mirror/archlinux"
+target="/srv/http/mirror/archlinux"
 
 # Lockfile path
 lock="/var/lock/syncrepo.lck"
@@ -96,4 +96,3 @@ rsync_cmd \
 	"${target}"
 
 echo "Last sync was $(date -d @$(cat ${target}/lastsync))"
-
